@@ -1,102 +1,126 @@
-## TechNova Flask App – DevOps Pipeline Project
+# Cloud-Native CI/CD Deployment Platform
 
->  Live Demo: [http://65.2.5.42](http://65.2.5.42)
+A containerized Flask application with an automated CI/CD workflow using GitHub, Jenkins, Docker, Terraform, and AWS EC2.
 
-A Dockerized Flask application deployed to AWS EC2 via Terraform and Jenkins CI/CD.
+## Architecture
 
-###  Project Overview
+Developer -> GitHub -> Jenkins -> Docker -> AWS EC2 -> Flask Application
 
-This is a team DevOps project demonstrating the end-to-end CI/CD workflow using:
+## Tech Stack
 
-*  **Flask** for the web application
-*  **Docker** for containerization
-*  **AWS EC2** for hosting
-*  **Terraform** for infrastructure provisioning
-*  **Jenkins** for CI/CD automation
-*  **DockerHub** for image registry
+- Python
+- Flask
+- Docker
+- Jenkins
+- Terraform
+- AWS EC2
+- Git and GitHub
+- Linux
 
-###  Features
+## Project Structure
 
-* “Hello, TechNova” Flask homepage
-* Dockerfile + .dockerignore configured
-* CI/CD pipeline builds and pushes image
-* Terraform provisions EC2 and auto-deploys container
-* Team-based collaboration on GitHub
-
----
-
-###  Project Structure
-
-```
-technova_flask_app/
-│
-├── main.tf
-├── outputs.tf          
-├── Dockerfile
-      ├── app.py                  
-      ├── requirements.txt          
-├── .dockerignore           
-├── Jenkinsfile            
-├── README.md
-└── technova_terraform/     
- 
+```text
+Cloud-Native-CICD-Deployment-Platform/
++-- app/
+|   +-- app.py
+|   +-- requirements.txt
++-- docker/
+|   +-- Dockerfile
++-- jenkins/
+|   +-- Jenkinsfile
++-- terraform/
+|   +-- main.tf
+|   +-- user_data.sh
++-- .dockerignore
++-- .gitignore
++-- README.md
 ```
 
----
+## CI/CD Workflow
 
-###  Deployment Pipeline
+1. Developer pushes code to GitHub.
+2. Jenkins checks out the repository.
+3. Jenkins builds the Docker image.
+4. Jenkins starts the Docker container.
+5. Jenkins performs a health check.
+6. Terraform provisions AWS infrastructure.
+7. The Flask application runs on AWS EC2.
 
-1. **GitHub Commit** ➝ triggers Jenkins job
-2. **Jenkins** builds Docker image
-3. Image is pushed to [DockerHub](https://hub.docker.com/r/manasvikakar/technova_app)
-4. **Terraform** is executed via Jenkins to:
+## Application Endpoints
 
-   * Provision an EC2 instance
-   * Install Docker
-   * Run the latest image
+**Home**
 
+GET /
 
-### Technologies Used
+**Health Check**
 
-| Tool          | Purpose                              |
-| ------------- | ------------------------------------ |
-| **Flask**     | Python Web Framework                 |
-| **Docker**    | Containerization                     |
-| **DockerHub** | Image Registry                       |
-| **Terraform** | Infrastructure as Code (IaC)         |
-| **AWS EC2**   | Cloud Hosting                        |
-| **Jenkins**   | CI/CD Automation                     |
-| **GitHub**    | Version Control & Team Collaboration |
+GET /health
 
+Response:
 
-###  How to Run Locally
+```json
+{"status": "healthy"}
+```
+
+## Run Locally
 
 ```bash
-git clone https://github.com/manasvi-kakar/technova_flask_app.git
-cd technova_flask_app
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python app.py
+python -m venv .venv
 ```
 
-### Live Project
+Windows:
 
-**Hosted URL:**
- [http://65.2.5.42](http://65.2.5.42)
+```cmd
+.venv\Scripts\activate
+```
 
+Install dependencies:
 
-### Acknowledgements
+```bash
+pip install -r app/requirements.txt
+```
 
-Thanks to mentors and Xebia for guidance on this DevOps Internship Project.
+Run:
 
+```bash
+python app/app.py
+```
 
-###  License
+## Run with Docker
 
-This project is for educational and internship purposes.
+```bash
+docker build -f docker/Dockerfile -t cloud-native-cicd-platform .
+docker run -d --name cloud-native-cicd-platform -p 5000:5000 cloud-native-cicd-platform
+```
 
+## Terraform
 
-### Author
+```bash
+cd terraform
+terraform init
+terraform validate
+terraform plan
+terraform apply
+```
 
-Basani Ganesh
+AWS credentials should be provided through the AWS CLI, environment variables, or an IAM role. Never commit AWS credentials to GitHub.
 
+## Security
+
+- Restrict SSH access to trusted IP addresses.
+- Use IAM roles instead of static AWS credentials.
+- Store secrets securely.
+- Use HTTPS for production deployments.
+- Avoid exposing unnecessary ports.
+
+## Author
+
+**Basani Ganesh**
+
+Computer Science and Engineering
+
+GitHub: https://github.com/Ganeshbasani
+
+## License
+
+This project is intended for educational and portfolio purposes.
