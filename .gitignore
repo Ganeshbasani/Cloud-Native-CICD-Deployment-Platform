@@ -9,3 +9,10 @@ terraform/.terraform/
 terraform/*.tfstate
 terraform/*.tfstate.*
 terraform/crash.log
+
+terraform/terraform.tfvars
+live-deploy.json
+repair-ec2.json
+ssm-command.json
+terraform/tfplan
+trivy-result.txt

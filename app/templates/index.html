@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cloud-Native CI/CD Deployment Platform dashboard">
+  <title>Cloud-Native CI/CD Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lucide-static@0.468.0/font/lucide.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><i class="icon icon-git-branch"></i></div>
+        <div class="brand-copy">
+          <strong>Cloud-Native</strong>
+          <span>CI/CD Platform</span>
+        </div>
+        <button class="icon-button sidebar-close" id="sidebarClose" aria-label="Close navigation"><i class="icon icon-x"></i></button>
+      </div>
+
+      <div class="workspace-select">
+        <div class="workspace-avatar">C</div>
+        <div class="workspace-copy">
+          <span class="eyebrow">Workspace</span>
+          <strong>Production</strong>
+        </div>
+        <i class="icon icon-chevrons-up-down muted"></i>
+      </div>
+
+      <nav class="nav-section" aria-label="Platform">
+        <span class="nav-label">Platform</span>
+        <button class="nav-item active" data-page="overview"><i class="icon icon-layout-dashboard"></i><span>Overview</span></button>
+        <button class="nav-item" data-page="pipelines"><i class="icon icon-git-pull-request"></i><span>Pipelines</span></button>
+        <button class="nav-item" data-page="projects"><i class="icon icon-box"></i><span>Projects</span></button>
+        <button class="nav-item" data-page="builds"><i class="icon icon-hammer"></i><span>Builds</span></button>
+        <button class="nav-item" data-page="deployments"><i class="icon icon-rocket"></i><span>Deployments</span></button>
+        <button class="nav-item" data-page="environments"><i class="icon icon-layers-3"></i><span>Environments</span></button>
+        <button class="nav-item" data-page="logs"><i class="icon icon-terminal"></i><span>Logs</span></button>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+
+      <nav class="nav-section" aria-label="Account">
+        <span class="nav-label">Account</span>
+        <button class="nav-item" data-page="settings"><i class="icon icon-settings-2"></i><span>Settings</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="support-row">
+          <div class="status-dot success"></div>
+          <span>All systems operational</span>
+        </div>
+        <span class="sidebar-version">v1.0.0</span>
+      </div>
+    </aside>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <main class="main-shell">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button mobile-menu" id="mobileMenu" aria-label="Open navigation"><i class="icon icon-menu"></i></button>
+          <div class="breadcrumb">
+            <span>Production</span>
+            <i class="icon icon-chevron-right"></i>
+            <strong id="breadcrumbCurrent">Overview</strong>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <label class="search-box" aria-label="Search">
+            <i class="icon icon-search"></i>
+            <input id="globalSearch" type="search" placeholder="Search..." autocomplete="off">
+            <kbd>⌘ K</kbd>
+          </label>
+          <button class="icon-button notification-button" aria-label="Notifications"><i class="icon icon-bell"></i><span class="notification-dot"></span></button>
+          <div class="profile-chip">
+            <div class="avatar">G</div>
+            <div class="profile-copy"><strong>Ganesh</strong><span>Administrator</span></div>
+            <i class="icon icon-chevron-down muted"></i>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <section class="page-head">
+          <div>
+            <div class="page-eyebrow">Cloud delivery workspace</div>
+            <h1 id="pageTitle">Overview</h1>
+            <p id="pageSubtitle">Monitor your pipelines, deployments, builds, and environments.</p>
+          </div>
+          <button class="primary-button" id="newPipelineButton"><i class="icon icon-plus"></i> New Pipeline</button>
+        </section>
+
+        <div id="pageContent" class="page-content"></div>
+      </div>
+    </main>
+  </div>
+
+  <template id="overviewTemplate">
+    <div class="kpi-grid">
+      <article class="metric-card">
+        <div class="metric-top"><span>Pipelines</span><i class="icon icon-git-pull-request muted"></i></div>
+        <strong>24</strong>
+        <div class="metric-foot"><span class="trend positive"><i class="icon icon-arrow-up-right"></i> 8.3%</span><span>vs last 30 days</span></div>
+      </article>
+      <article class="metric-card">
+        <div class="metric-top"><span>Successful</span><i class="icon icon-circle-check muted"></i></div>
+        <strong>18</strong>
+        <div class="metric-foot"><span class="status-text success-text">75% success rate</span><span>last 30 days</span></div>
+      </article>
+      <article class="metric-card">
+        <div class="metric-top"><span>Running</span><i class="icon icon-loader-circle muted"></i></div>
+        <strong>3</strong>
+        <div class="metric-foot"><span class="status-text info-text">2 builds</span><span>1 deployment</span></div>
+      </article>
+      <article class="metric-card">
+        <div class="metric-top"><span>Failed</span><i class="icon icon-circle-alert muted"></i></div>
+        <strong>3</strong>
+        <div class="metric-foot"><span class="status-text danger-text">12.5% failure</span><span>needs review</span></div>
+      </article>
+    </div>
+
+    <div class="section-grid two-one">
+      <section class="panel pipeline-panel">
+        <div class="panel-head">
+          <div><h2>Current pipeline</h2><p>cloud-native-cicd-platform · <span class="mono">main</span></p></div>
+          <span class="badge running"><span class="badge-dot"></span>Deploying</span>
+        </div>
+        <div class="pipeline-stages">
+          <div class="pipeline-stage done"><div class="stage-icon"><i class="icon icon-circle-check"></i></div><div><strong>Build</strong><span>38s</span></div></div>
+          <div class="stage-line done"></div>
+          <div class="pipeline-stage done"><div class="stage-icon"><i class="icon icon-circle-check"></i></div><div><strong>Test</strong><span>24s</span></div></div>
+          <div class="stage-line done"></div>
+          <div class="pipeline-stage done"><div class="stage-icon"><i class="icon icon-circle-check"></i></div><div><strong>Docker</strong><span>46s</span></div></div>
+          <div class="stage-line done"></div>
+          <div class="pipeline-stage done"><div class="stage-icon"><i class="icon icon-circle-check"></i></div><div><strong>Security</strong><span>21s</span></div></div>
+          <div class="stage-line active"></div>
+          <div class="pipeline-stage active"><div class="stage-icon"><i class="icon icon-loader-circle"></i></div><div><strong>Deploy</strong><span>running</span></div></div>
+          <div class="stage-line"></div>
+          <div class="pipeline-stage pending"><div class="stage-icon"><i class="icon icon-circle"></i></div><div><strong>Health</strong><span>pending</span></div></div>
+        </div>
+        <div class="pipeline-meta"><span class="mono">Build #184</span><span>Started 2 min ago</span><span>Duration 2m 09s</span></div>
+      </section>
+
+      <section class="panel environment-panel">
+        <div class="panel-head"><div><h2>Environments</h2><p>Service health by environment</p></div><button class="text-button" data-page-link="environments">View all <i class="icon icon-arrow-up-right"></i></button></div>
+        <div class="environment-list">
+          <div class="environment-row"><div><strong>Production</strong><span>3 services</span></div><div class="environment-status"><span class="badge success">Healthy</span><span class="mono">v1</span></div></div>
+          <div class="environment-row"><div><strong>Staging</strong><span>3 services</span></div><div class="environment-status"><span class="badge success">Healthy</span><span class="mono">v1</span></div></div>
+          <div class="environment-row"><div><strong>Development</strong><span>3 services</span></div><div class="environment-status"><span class="badge info">Running</span><span class="mono">v1</span></div></div>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel table-panel">
+      <div class="panel-head"><div><h2>Recent deployments</h2><p>Latest application releases across your environments</p></div><button class="secondary-button" data-page-link="deployments">View deployments</button></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Service</th><th>Environment</th><th>Branch</th><th>Commit</th><th>Status</th><th>Duration</th><th>Deployed</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><strong>cloud-native-cicd-platform</strong></td><td>Production</td><td><span class="mono">main</span></td><td><span class="mono">dead077</span></td><td><span class="badge success">Successful</span></td><td>2m 14s</td><td>2 minutes ago</td><td><button class="row-action" aria-label="Open deployment"><i class="icon icon-more-horizontal"></i></button></td></tr>
+            <tr><td><strong>api-service</strong></td><td>Staging</td><td><span class="mono">develop</span></td><td><span class="mono">a92fd10</span></td><td><span class="badge running"><span class="badge-dot"></span>Running</span></td><td>1m 08s</td><td>5 minutes ago</td><td><button class="row-action" aria-label="Open deployment"><i class="icon icon-more-horizontal"></i></button></td></tr>
+            <tr><td><strong>frontend</strong></td><td>Development</td><td><span class="mono">feature/ui</span></td><td><span class="mono">4c51b82</span></td><td><span class="badge warning">Warning</span></td><td>54s</td><td>13 minutes ago</td><td><button class="row-action" aria-label="Open deployment"><i class="icon icon-more-horizontal"></i></button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="status-strip">
+      <div class="status-strip-main"><div class="status-icon"><i class="icon icon-activity"></i></div><div><strong>Application runtime</strong><span>Connected to the live deployment on AWS.</span></div></div>
+      <div class="runtime-facts"><span><i class="icon icon-server"></i><span class="mono" id="runtimeEnvironment">{{ environment }}</span></span><span><i class="icon icon-tag"></i><span class="mono" id="runtimeVersion">{{ version }}</span></span><span class="runtime-live"><span class="status-dot success"></span>Healthy</span></div>
+    </div>
+  </template>
+
+  <template id="pipelinesTemplate">
+    <section class="panel table-panel"><div class="panel-head"><div><h2>Pipelines</h2><p>Build and deployment workflows configured for this workspace.</p></div><button class="primary-button"><i class="icon icon-plus"></i> New Pipeline</button></div><div class="table-wrap"><table><thead><tr><th>Pipeline</th><th>Repository</th><th>Branch</th><th>Last Run</th><th>Status</th><th>Duration</th><th>Triggered</th><th></th></tr></thead><tbody>
+      <tr><td><strong>Cloud Platform</strong></td><td>Ganeshbasani/Cloud-Native-CI/CD</td><td class="mono">main</td><td>2 min ago</td><td><span class="badge success">Successful</span></td><td>2m 14s</td><td>Git push</td><td><button class="row-action"><i class="icon icon-more-horizontal"></i></button></td></tr>
+      <tr><td><strong>AI Ticket Routing</strong></td><td>Ganeshbasani/AI-Powered-Ticket-Routing</td><td class="mono">main</td><td>18 min ago</td><td><span class="badge success">Successful</span></td><td>42s</td><td>Manual</td><td><button class="row-action"><i class="icon icon-more-horizontal"></i></button></td></tr>
+      <tr><td><strong>Frontend Build</strong></td><td>example/frontend</td><td class="mono">develop</td><td>31 min ago</td><td><span class="badge running"><span class="badge-dot"></span>Running</span></td><td>1m 18s</td><td>Git push</td><td><button class="row-action"><i class="icon icon-more-horizontal"></i></button></td></tr>
+    </tbody></table></div></section>
+  </template>
+
+  <template id="projectsTemplate">
+    <div class="compact-grid"><article class="project-card"><div class="project-icon"><i class="icon icon-cloud"></i></div><div><h3>Cloud-Native CI/CD</h3><p>Terraform-provisioned AWS delivery platform with Docker, ECR and SSM deployment.</p></div><div class="project-meta"><span class="mono">main</span><span class="badge success">Healthy</span></div><div class="project-foot"><span>Last deployment 2 min ago</span><span class="mono">dead077</span></div></article><article class="project-card"><div class="project-icon"><i class="icon icon-route"></i></div><div><h3>AI Ticket Routing</h3><p>Flask API for ticket classification and SLA breach prediction.</p></div><div class="project-meta"><span class="mono">main</span><span class="badge success">Healthy</span></div><div class="project-foot"><span>Last deployment 18 min ago</span><span class="mono">7d13ab2</span></div></article></div>
+  </template>
+
+  <template id="buildsTemplate">
+    <section class="panel table-panel"><div class="panel-head"><div><h2>Build history</h2><p>Recent builds across configured pipelines.</p></div></div><div class="table-wrap"><table><thead><tr><th>Build</th><th>Pipeline</th><th>Commit</th><th>Branch</th><th>Status</th><th>Duration</th><th>Started</th><th>Actions</th></tr></thead><tbody>
+      <tr><td class="mono">#184</td><td>Cloud Platform</td><td class="mono">dead077</td><td class="mono">main</td><td><span class="badge success">Successful</span></td><td>2m 14s</td><td>2 min ago</td><td><button class="text-button">View logs</button></td></tr><tr><td class="mono">#183</td><td>Cloud Platform</td><td class="mono">b61c9a0</td><td class="mono">main</td><td><span class="badge success">Successful</span></td><td>2m 03s</td><td>1 hr ago</td><td><button class="text-button">View logs</button></td></tr><tr><td class="mono">#182</td><td>Cloud Platform</td><td class="mono">a1d440e</td><td class="mono">main</td><td><span class="badge danger">Failed</span></td><td>1m 44s</td><td>3 hrs ago</td><td><button class="text-button">Retry</button></td></tr>
+    </tbody></table></div></section>
+  </template>
+
+  <template id="deploymentsTemplate">
+    <section class="panel table-panel"><div class="panel-head"><div><h2>Deployments</h2><p>Application releases and their current rollout state.</p></div><button class="secondary-button">Filter <i class="icon icon-sliders-horizontal"></i></button></div><div class="table-wrap"><table><thead><tr><th>Service</th><th>Environment</th><th>Version</th><th>Commit</th><th>Status</th><th>Duration</th><th>Deployed</th><th></th></tr></thead><tbody>
+      <tr><td><strong>cloud-native-cicd-platform</strong></td><td>Production</td><td class="mono">v1</td><td class="mono">dead077</td><td><span class="badge success">Healthy</span></td><td>2m 14s</td><td>2 min ago</td><td><button class="text-button">View details</button></td></tr><tr><td><strong>api-service</strong></td><td>Staging</td><td class="mono">v2.4.1</td><td class="mono">8f31c2a</td><td><span class="badge running"><span class="badge-dot"></span>Running</span></td><td>1m 08s</td><td>5 min ago</td><td><button class="text-button">View details</button></td></tr>
+    </tbody></table></div></section>
+  </template>
+
+  <template id="environmentsTemplate">
+    <div class="environment-cards"><article class="environment-card"><div class="env-head"><div><h3>Production</h3><span>3 services</span></div><span class="status-chip success"><span class="status-dot success"></span>Healthy</span></div><div class="env-version"><span>Release</span><strong class="mono">v1</strong></div><div class="env-facts"><span>Last deployment</span><strong>2 min ago</strong><span>Availability</span><strong>99.9%</strong></div></article><article class="environment-card"><div class="env-head"><div><h3>Staging</h3><span>3 services</span></div><span class="status-chip success"><span class="status-dot success"></span>Healthy</span></div><div class="env-version"><span>Release</span><strong class="mono">v1</strong></div><div class="env-facts"><span>Last deployment</span><strong>5 min ago</strong><span>Availability</span><strong>99.8%</strong></div></article><article class="environment-card"><div class="env-head"><div><h3>Development</h3><span>3 services</span></div><span class="status-chip info"><span class="status-dot info"></span>Running</span></div><div class="env-version"><span>Release</span><strong class="mono">v1</strong></div><div class="env-facts"><span>Last deployment</span><strong>13 min ago</strong><span>Availability</span><strong>99.6%</strong></div></article></div>
+  </template>
+
+  <template id="logsTemplate">
+    <section class="panel logs-panel"><div class="panel-head"><div><h2>Deployment logs</h2><p>Technical output from the latest production release.</p></div><span class="badge running"><span class="badge-dot"></span>Live</span></div><div class="log-viewer" role="log" aria-live="polite"><div><span class="log-time">10:16:04</span><span class="log-level info">INFO</span><span>Starting gunicorn 23.0.0</span></div><div><span class="log-time">10:16:04</span><span class="log-level info">INFO</span><span>Listening at: http://0.0.0.0:5000</span></div><div><span class="log-time">10:16:04</span><span class="log-level info">INFO</span><span>Booting worker with pid: 7</span></div><div><span class="log-time">10:16:04</span><span class="log-level info">INFO</span><span>Booting worker with pid: 8</span></div><div><span class="log-time">10:16:08</span><span class="log-level success">OK</span><span>Health check returned 200</span></div><div><span class="log-time">10:16:39</span><span class="log-level success">OK</span><span>Application ready on AWS</span></div><div><span class="log-time">10:17:24</span><span class="log-level success">OK</span><span>Deployment completed successfully</span></div></div></section>
+  </template>
+
+  <template id="settingsTemplate">
+    <div class="settings-layout"><section class="panel form-panel"><div class="panel-head"><div><h2>Workspace settings</h2><p>Manage deployment defaults and workspace preferences.</p></div></div><div class="form-grid"><label>Workspace name<input value="Production" /></label><label>Default branch<input value="main" /></label><label>Environment<select><option>Production</option><option>Staging</option><option>Development</option></select></label><label>Region<input class="mono" value="ap-south-1" /></label></div><div class="form-actions"><button class="secondary-button">Cancel</button><button class="primary-button">Save changes</button></div></section><section class="panel form-panel"><div class="panel-head"><div><h2>Notifications</h2><p>Choose which deployment events should create alerts.</p></div></div><label class="toggle-row"><span><strong>Deployment failures</strong><small>Alert when a production deployment fails.</small></span><input type="checkbox" checked><span class="toggle"></span></label><label class="toggle-row"><span><strong>Successful releases</strong><small>Notify when a production release is completed.</small></span><input type="checkbox" checked><span class="toggle"></span></label></section></div>
+  </template>
+
+  <script>window.RUNTIME = { version: {{ version|tojson }}, environment: {{ environment|tojson }} };</script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

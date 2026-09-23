@@ -1,5 +1,5 @@
-﻿import os
-from flask import Flask, jsonify
+import os
+from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
 
@@ -9,20 +9,28 @@ ENVIRONMENT = os.getenv("APP_ENV", "development")
 
 @app.get("/")
 def home():
-    return jsonify({
-        "service": "cloud-native-cicd-platform",
-        "status": "running",
-        "version": VERSION,
-        "environment": ENVIRONMENT,
-    })
+    return render_template(
+        "index.html",
+        version=VERSION,
+        environment=ENVIRONMENT,
+    )
+
+
+@app.get("/api/status")
+def status():
+    return jsonify(
+        {
+            "service": "cloud-native-cicd-platform",
+            "status": "running",
+            "version": VERSION,
+            "environment": ENVIRONMENT,
+        }
+    )
 
 
 @app.get("/health")
 def health():
-    return jsonify({
-        "status": "healthy",
-        "version": VERSION
-    })
+    return jsonify({"status": "healthy", "version": VERSION})
 
 
 @app.get("/ready")
@@ -32,14 +40,8 @@ def ready():
 
 @app.get("/version")
 def version():
-    return jsonify({
-        "version": VERSION,
-        "environment": ENVIRONMENT
-    })
+    return jsonify({"version": VERSION, "environment": ENVIRONMENT})
 
 
 if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=int(os.getenv("PORT", "5000"))
-    )
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", "5000")))
