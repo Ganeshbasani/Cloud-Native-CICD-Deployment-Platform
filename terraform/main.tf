@@ -1,4 +1,4 @@
-terraform {
+﻿terraform {
   required_version = ">= 1.5.0"
 
   required_providers {
@@ -14,15 +14,23 @@ provider "aws" {
 }
 
 variable "aws_region" {
-  description = "AWS region for deployment"
-  type        = string
-  default     = "ap-south-1"
+  type    = string
+  default = "ap-south-1"
 }
 
 variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t3.micro"
+  type    = string
+  default = "t3.micro"
+}
+
+variable "app_port" {
+  type    = number
+  default = 5000
+}
+
+variable "project_name" {
+  type    = string
+  default = "cloud-native-cicd-platform"
 }
 
 data "aws_ami" "ubuntu" {
@@ -39,21 +47,78 @@ data "aws_ami" "ubuntu" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+}
 
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
+resource "aws_ecr_repository" "app" {
+  name                 = var.project_name
+  image_tag_mutability = "IMMUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
   }
+
+  force_delete = true
+}
+
+resource "aws_iam_role" "ec2_role" {
+  name = "${var.project_name}-ec2-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+
+    Statement = [{
+      Effect = "Allow"
+
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ssm" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy" "ecr_pull" {
+  name = "${var.project_name}-ecr-pull"
+
+  role = aws_iam_role.ec2_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+
+    Statement = [{
+      Effect = "Allow"
+
+      Action = [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+      ]
+
+      Resource = "*"
+    }]
+  })
+}
+
+resource "aws_iam_instance_profile" "ec2_profile" {
+  name = "${var.project_name}-instance-profile"
+  role = aws_iam_role.ec2_role.name
 }
 
 resource "aws_security_group" "app" {
-  name        = "cloud-native-cicd-sg"
-  description = "Security group for Cloud-Native CI/CD Platform"
+  name        = "${var.project_name}-sg"
+  description = "Security group for Cloud Native CI/CD demo"
 
   ingress {
     description = "Flask application"
-    from_port   = 5000
-    to_port     = 5000
+    from_port   = var.app_port
+    to_port     = var.app_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -64,30 +129,43 @@ resource "aws_security_group" "app" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name = "cloud-native-cicd-sg"
-  }
 }
 
 resource "aws_instance" "app" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.app.id]
+  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
-  user_data = file("${path.module}/user_data.sh")
+  user_data = templatefile("${path.module}/user_data.sh", {
+    aws_region = var.aws_region
+  })
+
+  metadata_options {
+    http_tokens = "required"
+  }
 
   tags = {
-    Name = "Cloud-Native-CICD-Platform"
+    Name = var.project_name
   }
 }
 
-output "ec2_public_ip" {
-  description = "Public IP address of the EC2 instance"
-  value       = aws_instance.app.public_ip
+output "instance_id" {
+  value = aws_instance.app.id
+}
+
+output "instance_public_ip" {
+  value = aws_instance.app.public_ip
+}
+
+output "ecr_repository_url" {
+  value = aws_ecr_repository.app.repository_url
+}
+
+output "ecr_registry" {
+  value = split("/", aws_ecr_repository.app.repository_url)[0]
 }
 
 output "application_url" {
-  description = "Flask application URL"
-  value       = "http://${aws_instance.app.public_ip}:5000"
+  value = "http://${aws_instance.app.public_ip}:${var.app_port}"
 }

@@ -1,19 +1,11 @@
-# Python
-venv/
-.venv/
+﻿.venv/
 __pycache__/
-*.pyc
-
-# Terraform
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfvars
-
-# Secrets
-*.pem
-.env
-
-# IDE
-.vscode/
-.idea/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+backup-before-upgrade/
+AI-Powered-Ticket-Routing-System-main/
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/crash.log

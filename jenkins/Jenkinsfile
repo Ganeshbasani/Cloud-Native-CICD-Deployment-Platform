@@ -1,23 +1,82 @@
-pipeline {
+﻿pipeline {
     agent any
 
+    environment {
+        AWS_REGION = "ap-south-1"
+        ECR_REPOSITORY = "cloud-native-cicd-platform"
+    }
+
     stages {
-        stage('Clone Repo') {
+
+        stage('Checkout') {
             steps {
-                git 'https://github.com/manasvi-kakar/technova_flask_app.git'
+                checkout scm
+            }
+        }
+
+        stage('Test') {
+            steps {
+                powershell '''
+                    python -m venv .venv
+                    .\\.venv\\Scripts\\python.exe -m pip install --upgrade pip
+                    .\\.venv\\Scripts\\python.exe -m pip install -r app\\requirements.txt
+                    .\\.venv\\Scripts\\python.exe -m pytest tests -v
+                '''
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t technova_app .'
+                powershell '''
+                    docker build -f docker\\Dockerfile -t $env:ECR_REPOSITORY`:$env:BUILD_NUMBER .
+                '''
             }
         }
 
-        stage('Run Container') {
+        stage('Trivy Security Scan') {
             steps {
-                sh 'docker run -d -p 5000:5000 technova_app'
+                powershell '''
+                    trivy image --severity HIGH,CRITICAL --exit-code 1 $env:ECR_REPOSITORY`:$env:BUILD_NUMBER
+                '''
             }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding',
+                     credentialsId: 'aws-jenkins']
+                ]) {
+                    powershell '''
+                        $registry = aws ecr describe-repositories `
+                            --repository-names $env:ECR_REPOSITORY `
+                            --region $env:AWS_REGION `
+                            --query 'repositories[0].repositoryUri' `
+                            --output text
+
+                        aws ecr get-login-password `
+                            --region $env:AWS_REGION |
+                            docker login `
+                            --username AWS `
+                            --password-stdin $registry.Split('/')[0]
+
+                        docker tag `
+                            $env:ECR_REPOSITORY`:$env:BUILD_NUMBER `
+                            $registry`:$env:BUILD_NUMBER
+
+                        docker push `
+                            $registry`:$env:BUILD_NUMBER
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            powershell '''
+                docker ps -a
+            '''
         }
     }
 }
