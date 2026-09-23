@@ -1,303 +1,432 @@
-# Cloud-Native CI/CD Deployment Platform
+<div align="center">
 
-A production-oriented CI/CD and cloud deployment platform for containerized applications.
+# ☁️ Cloud-Native CI/CD Deployment Platform
 
-The platform demonstrates an end-to-end software delivery workflow covering application testing, Docker containerization, vulnerability scanning, Amazon ECR image publishing, infrastructure provisioning with Terraform, and deployment to AWS EC2 through AWS Systems Manager.
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=28&duration=3000&pause=900&color=2563EB&center=true&vCenter=true&width=980&lines=Cloud-Native+CI%2FCD+Deployment+Platform;Containerized+Application+Delivery;Jenkins+%7C+Docker+%7C+Terraform+%7C+AWS;GitHub+%7C+Trivy+%7C+Amazon+ECR+%7C+EC2" alt="Typing Animation"/>
+</p>
 
-## Live Demo
+<p align="center">
 
-**Application:** https://cloud-native-cicd-deployment-platform.onrender.com/
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-REST%20API-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Docker](https://img.shields.io/badge/Docker-Container-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-D24939?style=for-the-badge&logo=jenkins&logoColor=white)](https://www.jenkins.io/)
+[![Terraform](https://img.shields.io/badge/Terraform-Infrastructure-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)](https://www.terraform.io/)
+[![AWS](https://img.shields.io/badge/AWS-Cloud-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
+[![Amazon ECR](https://img.shields.io/badge/Amazon%20ECR-Registry-FF9900?style=for-the-badge&logo=amazonecr&logoColor=white)](https://aws.amazon.com/ecr/)
+[![Pytest](https://img.shields.io/badge/Pytest-Testing-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)](https://pytest.org/)
 
-The live application provides a professional deployment dashboard with application health, environment, version, pipeline, deployment, build, and runtime information.
+</p>
+
+<p align="center">
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20Application-2563EB?style=for-the-badge&logo=render&logoColor=white)](https://cloud-native-cicd-deployment-platform.onrender.com/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-111827?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ganeshbasani/Cloud-Native-CICD-Deployment-Platform)
+
+</p>
+
+</div>
 
 ---
 
-## Overview
+## 🚀 Live Demo — Recruiter Access
 
-The **Cloud-Native CI/CD Deployment Platform** is designed to make application delivery more repeatable and less dependent on manual server operations.
+### 🌐 Try the Deployed Application
 
-Instead of manually building an application, creating a container, scanning it, pushing it to a registry, connecting to a server, starting the container, and checking whether the deployment works, the project brings these activities into a structured delivery workflow.
+**🔗 Live Demo:** https://cloud-native-cicd-deployment-platform.onrender.com/
 
-### Delivery Flow
+The live application presents a clean, light enterprise-style dashboard for monitoring application health, environment, version, pipeline stages, builds, deployments, and runtime information.
+
+### 🖥️ Live Application Preview
+
+> Click the screenshot to open the live application.
+
+<p align="center">
+  <a href="https://cloud-native-cicd-deployment-platform.onrender.com/">
+    <img src="Screenshots/08-live-application.png" alt="Live Application" width="920">
+  </a>
+</p>
+
+---
+
+## 📸 Product UI Showcase
+
+### 📊 Dashboard
+
+<p align="center">
+  <img src="Screenshots/01-dashboard.png" alt="Dashboard" width="920">
+</p>
+
+### 🔁 Pipelines
+
+<p align="center">
+  <img src="Screenshots/02-pipelines.png" alt="Pipelines" width="920">
+</p>
+
+### 📁 Projects
+
+<p align="center">
+  <img src="Screenshots/03-projects.png" alt="Projects" width="920">
+</p>
+
+### 🧱 Builds
+
+<p align="center">
+  <img src="Screenshots/04-builds.png" alt="Builds" width="920">
+</p>
+
+### 🚀 Deployments
+
+<p align="center">
+  <img src="Screenshots/05-deployments.png" alt="Deployments" width="920">
+</p>
+
+### 🌍 Environments
+
+<p align="center">
+  <img src="Screenshots/06-environments.png" alt="Environments" width="920">
+</p>
+
+### 🧾 Logs
+
+<p align="center">
+  <img src="Screenshots/07-logs.png" alt="Logs" width="920">
+</p>
+
+### ⚙️ Settings
+
+<p align="center">
+  <img src="Screenshots/09-settings.png" alt="Settings" width="920">
+</p>
+
+---
+
+## 📌 Table of Contents
+
+- [Live Demo](#-live-demo--recruiter-access)
+- [Product UI Showcase](#-product-ui-showcase)
+- [Overview](#-overview)
+- [What This Project Solves](#-what-this-project-solves)
+- [Features](#-features)
+- [Tech Stack](#️-tech-stack)
+- [Architecture](#-architecture)
+- [CI/CD Workflow](#-cicd-workflow)
+- [Project Structure](#-project-structure)
+- [Application API](#-application-api)
+- [Installation](#️-installation)
+- [Running the Application](#️-running-the-application)
+- [Docker](#-docker)
+- [AWS Deployment](#️-aws-deployment)
+- [Infrastructure as Code](#-infrastructure-as-code)
+- [Security](#-security)
+- [Testing](#-testing)
+- [Design System](#-design-system)
+- [Future Improvements](#-future-improvements)
+- [Repository](#-repository)
+- [License](#-license)
+
+---
+
+# 📖 Overview
+
+The **Cloud-Native CI/CD Deployment Platform** is a DevOps-focused application designed to demonstrate an end-to-end software delivery workflow for containerized applications.
+
+The platform combines a Flask application with CI/CD, containerization, security scanning, cloud infrastructure, artifact management, and deployment automation.
+
+The core idea is simple:
+
+```text
+Source Code
+    ↓
+Test
+    ↓
+Build
+    ↓
+Security Scan
+    ↓
+Container Registry
+    ↓
+Cloud Deployment
+    ↓
+Health Verification
+```
+
+Instead of treating deployment as a sequence of unrelated manual commands, the project organizes the delivery process into a repeatable engineering workflow.
+
+---
+
+# 🎯 What This Project Solves
+
+A development team should not have to manually repeat the same deployment steps every time a new application version is released.
+
+Without a CI/CD platform, deployment can involve:
+
+```text
+Pull source code
+    ↓
+Install dependencies
+    ↓
+Run tests
+    ↓
+Build container
+    ↓
+Scan container
+    ↓
+Push image
+    ↓
+Connect to server
+    ↓
+Pull image
+    ↓
+Restart application
+    ↓
+Check application health
+```
+
+This project demonstrates how those activities can be structured into a consistent cloud delivery process.
+
+---
+
+# ✨ Features
+
+- ✅ Professional light enterprise-style deployment dashboard
+- ✅ Flask application backend
+- ✅ REST-style application endpoints
+- ✅ Docker containerization
+- ✅ Gunicorn application server
+- ✅ Pytest automated testing
+- ✅ Trivy container vulnerability scanning
+- ✅ Amazon ECR image registry
+- ✅ Amazon EC2 deployment
+- ✅ AWS Systems Manager deployment access
+- ✅ Terraform infrastructure as code
+- ✅ IAM role based EC2 access
+- ✅ Docker health checks
+- ✅ Application version reporting
+- ✅ Environment reporting
+- ✅ Pipeline, build, deployment, environment, and log views
+- ✅ Responsive UI
+- ✅ Technical log viewer
+- ✅ Live cloud deployment demonstration
+
+---
+
+# 🛠️ Tech Stack
+
+| Category | Technology |
+|---|---|
+| Language | Python 3.12 |
+| Backend | Flask |
+| Application Server | Gunicorn |
+| Frontend | HTML, CSS, JavaScript |
+| UI Typography | Inter |
+| Technical Typography | JetBrains Mono |
+| Testing | Pytest |
+| Containerization | Docker |
+| Security Scanning | Trivy |
+| CI/CD | Jenkins |
+| Source Control | Git, GitHub |
+| Cloud | AWS |
+| Compute | Amazon EC2 |
+| Container Registry | Amazon ECR |
+| Remote Operations | AWS Systems Manager |
+| Access Control | AWS IAM |
+| Infrastructure | Terraform |
+| Operating System | Ubuntu Linux |
+
+---
+
+# 🏗️ Architecture
+
+```text
+                              INTERNET
+                                  |
+                                  v
+                      +-------------------------+
+                      |   Application Dashboard |
+                      +-----------+-------------+
+                                  |
+                                  v
+                      +-------------------------+
+                      |      Flask + Gunicorn   |
+                      +-----------+-------------+
+                                  |
+                              Docker
+                                  |
+                                  v
+                              AWS EC2
+                                  |
+                                  |
+                    +-------------+-------------+
+                    |                           |
+                    v                           v
+              AWS Systems Manager         Amazon ECR
+                    ^                           ^
+                    |                           |
+                    +------------+--------------+
+                                 |
+                                 |
+                              Jenkins
+                                 ^
+                                 |
+                               GitHub
+```
+
+### Delivery Path
 
 ```text
 Developer
-    |
-    v
+   |
+   v
 GitHub
-    |
-    v
+   |
+   v
 Jenkins
-    |
-    +---- Automated Tests
-    |
-    +---- Docker Build
-    |
-    +---- Trivy Security Scan
-    |
-    v
+   |
+   +---- Pytest
+   |
+   +---- Docker Build
+   |
+   +---- Trivy Scan
+   |
+   v
 Amazon ECR
-    |
-    v
+   |
+   v
 AWS Systems Manager
-    |
-    v
+   |
+   v
 Amazon EC2
-    |
-    v
-Docker + Gunicorn
-    |
-    v
-Flask Application
-    |
-    v
+   |
+   v
+Docker Container
+   |
+   v
+Gunicorn + Flask
+   |
+   v
 Health Check
 ```
 
 ---
 
-## Key Features
+# 🔄 CI/CD Workflow
 
-- Professional light enterprise-style deployment dashboard
-- Python Flask backend
-- REST-style application endpoints
-- Docker containerization
-- Gunicorn production application server
-- Automated Pytest test suite
-- Trivy container image security scanning
-- Amazon Elastic Container Registry (ECR)
-- Amazon EC2 deployment
-- AWS Systems Manager based remote deployment
-- Terraform infrastructure as code
-- IAM role based EC2 access
-- Docker health checks
-- Application version and environment reporting
-- Responsive dashboard UI
-- Runtime status and deployment information
-- Technical deployment/log presentation
+## 1. Source Control
 
----
+Application source code is maintained in GitHub.
 
-## Technology Stack
-
-### Application
-
-- Python
-- Flask
-- Gunicorn
-- HTML
-- CSS
-- JavaScript
-- Inter
-- JetBrains Mono
-
-### DevOps
-
-- Git
-- GitHub
-- Jenkins
-- Docker
-- Trivy
-
-### AWS
-
-- Amazon EC2
-- Amazon ECR
-- AWS Systems Manager
-- AWS IAM
-- AWS CLI
-
-### Infrastructure
-
-- Terraform
-- Ubuntu Linux
-
-### Testing
-
-- Pytest
-
----
-
-## Architecture
-
-```text
-                         Internet
-                            |
-                            v
-                 Cloud-Native CI/CD UI
-                            |
-                            v
-                     Flask Application
-                            |
-                            v
-                       Gunicorn
-                            |
-                    +-------+-------+
-                    |               |
-                    v               v
-                 /health        /api/status
-                    |
-                    v
-               Docker Container
-                    |
-                    v
-                AWS EC2
-
-CI/CD:
-
-GitHub
-   |
-   v
-Jenkins
-   |
-   +--> Pytest
-   |
-   +--> Docker Build
-   |
-   +--> Trivy Scan
-   |
-   v
-Amazon ECR
-   |
-   v
-AWS Systems Manager
-   |
-   v
-Amazon EC2
+```bash
+git add .
+git commit -m "Update application"
+git push origin main
 ```
 
----
+## 2. Automated Testing
 
-## Application Dashboard
-
-The application includes a professional SaaS-style deployment interface designed for engineering and DevOps workflows.
-
-It follows a restrained enterprise design system:
-
-- Light interface
-- White surfaces
-- Soft gray application background
-- Blue primary actions
-- Neutral typography
-- Compact information-dense cards
-- Professional status badges
-- Subtle borders
-- Minimal shadows
-- Responsive layout
-- Dark terminal surface only for technical logs
-
----
-
-## Screenshots
-
-### Dashboard
-
-![Dashboard](Screenshots/01-dashboard.png)
-
-### Pipelines
-
-![Pipelines](Screenshots/02-pipelines.png)
-
-### Projects
-
-![Projects](Screenshots/03-projects.png)
-
-### Builds
-
-![Builds](Screenshots/04-builds.png)
-
-### Deployments
-
-![Deployments](Screenshots/05-deployments.png)
-
-### Environments
-
-![Environments](Screenshots/06-environments.png)
-
-### Logs
-
-![Logs](Screenshots/07-logs.png)
-
-### Live Application
-
-![Live Application](Screenshots/08-live-application.png)
-
-### Settings
-
-![Settings](Screenshots/09-settings.png)
-
----
-
-## CI/CD Workflow
-
-The project is structured around a standard container delivery workflow.
-
-### 1. Source
-
-Application code is maintained in GitHub.
-
-```text
-git push
-```
-
-triggers the software delivery process.
-
-### 2. Automated Testing
-
-Pytest validates the Flask application before a container is released.
+Pytest validates the application before packaging.
 
 ```bash
 python -m pytest tests -v
 ```
 
-### 3. Docker Build
+## 3. Docker Build
 
-The application is packaged into a Docker image.
+The application is packaged into a reproducible container image.
 
 ```bash
 docker build -f docker/Dockerfile -t cloud-native-cicd-platform .
 ```
 
-### 4. Security Scanning
+## 4. Security Scan
 
-Trivy scans the built Docker image for high and critical vulnerabilities.
+Trivy scans the container image for high and critical vulnerabilities.
 
-### 5. Container Registry
+## 5. Artifact Publishing
 
-The validated image is published to Amazon ECR.
+The validated Docker image is pushed to Amazon ECR.
 
 ```text
 Amazon ECR
-cloud-native-cicd-platform
+└── cloud-native-cicd-platform
 ```
 
-### 6. Deployment
+## 6. Cloud Deployment
 
-AWS Systems Manager sends deployment commands to the EC2 instance.
+The EC2 deployment can be performed through AWS Systems Manager without requiring an interactive SSH deployment workflow.
 
-The EC2 instance pulls the image from ECR and starts the container.
+## 7. Health Verification
 
-### 7. Health Verification
-
-The deployment is validated through the application health endpoint.
+The deployed container exposes:
 
 ```text
-GET /health
+/health
+```
+
+and the application verifies that the service is responding correctly.
+
+---
+
+# 📂 Project Structure
+
+```text
+Cloud-Native-CICD-Deployment-Platform/
+│
+├── app/
+│   ├── app.py
+│   ├── requirements.txt
+│   │
+│   ├── templates/
+│   │   └── index.html
+│   │
+│   └── static/
+│       ├── styles.css
+│       └── app.js
+│
+├── docker/
+│   └── Dockerfile
+│
+├── jenkins/
+│   └── Jenkinsfile
+│
+├── terraform/
+│   ├── main.tf
+│   └── user_data.sh
+│
+├── tests/
+│   └── test_app.py
+│
+├── Screenshots/
+│   ├── 01-dashboard.png
+│   ├── 02-pipelines.png
+│   ├── 03-projects.png
+│   ├── 04-builds.png
+│   ├── 05-deployments.png
+│   ├── 06-environments.png
+│   ├── 07-logs.png
+│   ├── 08-live-application.png
+│   └── 09-settings.png
+│
+├── Dockerfile
+├── .dockerignore
+├── .gitignore
+└── README.md
 ```
 
 ---
 
-## Application Endpoints
+# 🌐 Application API
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| GET | `/` | Dashboard UI |
-| GET | `/api/status` | Application status information |
-| GET | `/health` | Health check |
-| GET | `/ready` | Readiness check |
-| GET | `/version` | Application version and environment |
+| `GET` | `/` | Dashboard UI |
+| `GET` | `/api/status` | Application status information |
+| `GET` | `/health` | Health check |
+| `GET` | `/ready` | Readiness check |
+| `GET` | `/version` | Version and environment |
 
-### Health Response
+### `/health`
 
 ```json
 {
@@ -306,7 +435,7 @@ GET /health
 }
 ```
 
-### Status Response
+### `/api/status`
 
 ```json
 {
@@ -319,86 +448,40 @@ GET /health
 
 ---
 
-## Project Structure
+# ⚙️ Installation
 
-```text
-Cloud-Native-CICD-Deployment-Platform/
-|
-+-- app/
-|   +-- app.py
-|   +-- requirements.txt
-|   |
-|   +-- templates/
-|   |   +-- index.html
-|   |
-|   +-- static/
-|       +-- styles.css
-|       +-- app.js
-|
-+-- docker/
-|   +-- Dockerfile
-|
-+-- jenkins/
-|   +-- Jenkinsfile
-|
-+-- terraform/
-|   +-- main.tf
-|   +-- user_data.sh
-|
-+-- tests/
-|   +-- test_app.py
-|
-+-- Screenshots/
-|   +-- 01-dashboard.png
-|   +-- 02-pipelines.png
-|   +-- 03-projects.png
-|   +-- 04-builds.png
-|   +-- 05-deployments.png
-|   +-- 06-environments.png
-|   +-- 07-logs.png
-|   +-- 08-live-application.png
-|   +-- 09-settings.png
-|
-+-- .dockerignore
-+-- .gitignore
-+-- Dockerfile
-+-- README.md
-```
-
----
-
-## Run Locally
-
-### Clone
+## Clone Repository
 
 ```bash
 git clone https://github.com/Ganeshbasani/Cloud-Native-CICD-Deployment-Platform.git
 cd Cloud-Native-CICD-Deployment-Platform
 ```
 
-### Create Virtual Environment
+## Create Virtual Environment
 
-Windows:
+### Windows
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\activate
 ```
 
-Linux/macOS:
+### Linux / macOS
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### Install Dependencies
+## Install Dependencies
 
 ```bash
 pip install -r app/requirements.txt
 ```
 
-### Run Application
+---
+
+# ▶️ Running the Application
 
 ```bash
 python app/app.py
@@ -407,36 +490,20 @@ python app/app.py
 Open:
 
 ```text
-http://localhost:5000
+http://127.0.0.1:5000
 ```
 
 ---
 
-## Run Tests
+# 🐳 Docker
 
-```bash
-python -m pytest tests -v
-```
-
-The test suite covers:
-
-- Dashboard response
-- API status
-- Health endpoint
-- Readiness endpoint
-- Version endpoint
-
----
-
-## Docker
-
-### Build
+## Build
 
 ```bash
 docker build -f docker/Dockerfile -t cloud-native-cicd-platform .
 ```
 
-### Run
+## Run
 
 ```bash
 docker run -d \
@@ -445,7 +512,7 @@ docker run -d \
   cloud-native-cicd-platform
 ```
 
-### Health Check
+## Health Check
 
 ```bash
 curl http://localhost:5000/health
@@ -453,9 +520,53 @@ curl http://localhost:5000/health
 
 ---
 
-## Terraform
+# ☁️ AWS Deployment
 
-The Terraform configuration provisions the AWS infrastructure required by the platform.
+The project uses AWS services for cloud deployment:
+
+```text
+Terraform
+   |
+   +---- Amazon EC2
+   |
+   +---- IAM Role
+   |
+   +---- Security Group
+   |
+   +---- Amazon ECR
+   |
+   +---- AWS Systems Manager
+```
+
+### Container Registry
+
+Example image:
+
+```text
+cloud-native-cicd-platform:v1
+```
+
+### Deployment Pattern
+
+```text
+Docker Image
+     ↓
+Amazon ECR
+     ↓
+AWS Systems Manager
+     ↓
+EC2
+     ↓
+Docker Container
+     ↓
+Health Check
+```
+
+---
+
+# 🧱 Infrastructure as Code
+
+Terraform is used to define and provision the cloud infrastructure.
 
 ### Initialize
 
@@ -482,218 +593,172 @@ terraform plan
 terraform apply
 ```
 
-AWS credentials should be supplied through an appropriate AWS authentication mechanism.
-
-Do not commit AWS credentials, access keys, session tokens, or secret configuration files to GitHub.
+Terraform manages the project infrastructure as code rather than relying entirely on manually configured cloud resources.
 
 ---
 
-## AWS Deployment
+# 🔐 Security
 
-The AWS deployment uses:
+Security-focused practices demonstrated in the project include:
 
-```text
-Terraform
-    |
-    +--> EC2
-    +--> ECR
-    +--> IAM Role
-    +--> Security Group
-    +--> SSM Access
-```
-
-The Docker image is published to Amazon ECR and the EC2 instance retrieves and runs the image using its IAM role.
-
-Example image:
-
-```text
-cloud-native-cicd-platform:v1
-```
-
----
-
-## Security
-
-Security considerations implemented in the project include:
-
-- Container vulnerability scanning using Trivy
+- Container vulnerability scanning with Trivy
+- Non-root application user inside the Docker image
 - IAM role based EC2 access
-- AWS Systems Manager instead of requiring SSH for deployment
-- Non-root Docker container user
-- Docker health check
-- IMDSv2 requirement on EC2
-- AWS credentials excluded from Git
-- Terraform variables containing environment-specific values excluded from version control
-- Restricted exposure of infrastructure ports according to deployment requirements
+- AWS Systems Manager based remote operations
+- IMDSv2 requirement for EC2
+- Application health checks
+- AWS credentials excluded from source control
+- Terraform environment-specific values excluded from Git
+- Minimal public exposure required for the running demo
+- No application secrets hardcoded into source files
 
 ---
 
-## Health and Reliability
+# 🧪 Testing
 
-The application includes a Docker health check and dedicated application health endpoints.
-
-```text
-/health
-/ready
-```
-
-The Docker image uses Gunicorn rather than the Flask development server for container execution.
-
-Health verification is performed after deployment to confirm that the application is responding successfully.
-
----
-
-## Deployment Versioning
-
-Application versions can be passed through the environment:
+Run:
 
 ```bash
-APP_VERSION=v1
-APP_ENV=aws
+python -m pytest tests -v
 ```
 
-The running application reports its deployment version through the API and dashboard.
+The project includes tests around the application routes and service behavior.
 
-Example:
-
-```json
-{
-  "version": "v1",
-  "environment": "aws"
-}
-```
-
-This makes it easier to identify which application release is currently running.
+The health and readiness endpoints are also suitable for deployment verification.
 
 ---
 
-## Design System
+# 🎨 Design System
 
-The dashboard uses a professional enterprise UI system based on:
+The dashboard follows a deliberate light enterprise SaaS design system.
+
+### Color System
 
 ```text
-Background       #F8FAFC
-Surface          #FFFFFF
-Primary          #2563EB
-Primary Hover    #1D4ED8
-Primary Soft     #EFF6FF
-Text             #172033
-Secondary Text   #475569
-Muted Text       #64748B
-Borders          #E2E8F0
-Success          #16A34A
-Warning          #D97706
-Error            #DC2626
-Info             #0284C7
-Terminal         #0F172A
+Application Background    #F8FAFC
+Surface                    #FFFFFF
+Primary                    #2563EB
+Primary Hover              #1D4ED8
+Primary Soft               #EFF6FF
+Primary Text               #172033
+Secondary Text             #475569
+Muted Text                 #64748B
+Border                     #E2E8F0
+Success                    #16A34A
+Warning                    #D97706
+Error                      #DC2626
+Info                       #0284C7
+Terminal                   #0F172A
 ```
 
-Typography:
+### Typography
 
 ```text
 Inter
 JetBrains Mono
 ```
 
-Inter is used for normal interface content, while JetBrains Mono is reserved for technical information such as versions, build identifiers, branches, commands, and logs.
+Inter is used for the normal interface.
 
----
-
-## Production-Oriented Characteristics
-
-The project demonstrates several practices commonly used in modern cloud delivery systems:
+JetBrains Mono is reserved for:
 
 ```text
-Infrastructure as Code
-Containerization
-Automated Testing
-Security Scanning
-Artifact Registry
-Remote Deployment
-Health Validation
-IAM-based Access
-Application Versioning
-Observability-ready Endpoints
+Build IDs
+Commit hashes
+Branches
+Version numbers
+Commands
+Deployment metadata
+Logs
 ```
 
-The current implementation is intentionally compact so that the complete system remains understandable and reproducible.
+### UI Principles
+
+- Light first
+- Compact information density
+- Restrained color usage
+- Subtle borders
+- Minimal shadows
+- Consistent spacing
+- Consistent component hierarchy
+- Responsive layout
+- Accessible focus states
+- Technical dark surface only for terminal/log output
 
 ---
 
-## Future Improvements
+# 📈 What This Project Demonstrates
 
-Potential extensions include:
+This project is primarily a **DevOps and cloud deployment project**, with a Flask application used as the deployable workload.
 
-- HTTPS with a custom domain
+It demonstrates practical understanding of:
+
+```text
+Source Control
+      ↓
+Automated Testing
+      ↓
+Containerization
+      ↓
+Security Scanning
+      ↓
+Artifact Management
+      ↓
+Infrastructure as Code
+      ↓
+Cloud Deployment
+      ↓
+Health Verification
+```
+
+The project therefore goes beyond simply creating a Flask application. Its main purpose is to demonstrate how software can be moved from source code into a running cloud environment through a structured delivery process.
+
+---
+
+# 🚀 Future Improvements
+
+- HTTPS and custom domain
 - Application Load Balancer
 - CloudWatch monitoring and alerting
 - Centralized application logs
 - AWS Secrets Manager integration
-- Automated deployment rollback
-- Blue/green or rolling deployments
+- Automated rollback
+- Blue/green or rolling deployment strategy
 - EC2 Auto Scaling
-- Multi-AZ architecture
-- Authentication and role-based access control for the dashboard
-- Deployment history backed by persistent storage
-- Integration with additional cloud platforms
+- Multi-AZ deployment
+- Dashboard authentication and RBAC
+- Persistent deployment history
+- Deployment notifications
+- Expanded integration and UI tests
 
 ---
 
-## Why This Project Exists
+# 🔗 Repository
 
-The project demonstrates how application code can move from source control to a running cloud environment through a controlled software delivery process.
-
-The main engineering concepts demonstrated are:
-
-```text
-Source Control
-      |
-      v
-Testing
-      |
-      v
-Containerization
-      |
-      v
-Security
-      |
-      v
-Artifact Management
-      |
-      v
-Infrastructure
-      |
-      v
-Deployment
-      |
-      v
-Health Verification
-```
-
----
-
-## Repository
-
-GitHub:
+### GitHub
 
 https://github.com/Ganeshbasani/Cloud-Native-CICD-Deployment-Platform
 
-Live Demo:
+### Live Application
 
 https://cloud-native-cicd-deployment-platform.onrender.com/
 
 ---
 
-## Author
+<div align="center">
 
-**Basani Ganesh**
+# 👨‍💻 Developer
+
+### **Basani Ganesh**
 
 B.Tech — Computer Science & Engineering
 
-GitHub: https://github.com/Ganeshbasani
+[GitHub](https://github.com/Ganeshbasani)
+
+</div>
 
 ---
 
-## License
+# 📜 License
 
-This project is intended for educational, portfolio, and demonstration purposes.
+This project is intended for educational, portfolio, and technical demonstration purposes.
